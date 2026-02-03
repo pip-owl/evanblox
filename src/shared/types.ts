@@ -1,5 +1,5 @@
 /**
- * Shared types and constants for EvanBlox
+ * Shared types and constants for TQTHBAXPDENAE-SBTV
  * Used by both main and renderer processes
  */
 

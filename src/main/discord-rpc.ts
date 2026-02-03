@@ -28,8 +28,8 @@ export class DiscordRPCManager {
       this.updatePresence({
         details: 'In Launcher',
         state: 'Idle',
-        largeImageKey: 'evanblox_logo',
-        largeImageText: 'EvanBlox Launcher',
+        largeImageKey: 'tqthbaxpdenae-sbtv_logo',
+        largeImageText: 'TQTHBAXPDENAE-SBTV Launcher',
         startTimestamp: Date.now(),
       });
     });
@@ -107,8 +107,8 @@ export class DiscordRPCManager {
         state: presence.state,
         startTimestamp: presence.startTimestamp,
         endTimestamp: presence.endTimestamp,
-        largeImageKey: presence.largeImageKey || 'evanblox_logo',
-        largeImageText: presence.largeImageText || 'EvanBlox',
+        largeImageKey: presence.largeImageKey || 'tqthbaxpdenae-sbtv_logo',
+        largeImageText: presence.largeImageText || 'TQTHBAXPDENAE-SBTV',
         smallImageKey: presence.smallImageKey,
         smallImageText: presence.smallImageText,
         partySize: presence.partySize,

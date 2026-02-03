@@ -52,7 +52,7 @@ function App() {
       <div className="h-screen w-screen flex items-center justify-center bg-[#0a0a0a]">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-2 border-[#00d26a] border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-400">Loading EvanBlox...️</p>
+          <p className="text-gray-400">Loading TQTHBAXPDENAE-SBTV...️</p>
         </div>
       </div>
     );

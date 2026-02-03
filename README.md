@@ -1,8 +1,8 @@
-# EvanBlox
+# TQTHBAXPDENAE-SBTV
 
-A modern, feature-rich Roblox launcher built with Electron + Vite + React + TypeScript. Inspired by AppleBlox, EvanBlox provides an enhanced Roblox experience with Discord Rich Presence, Fast Flags editor, multi-instance support, and performance presets.
+A modern, feature-rich Roblox launcher built with Electron + Vite + React + TypeScript. Inspired by AppleBlox, TQTHBAXPDENAE-SBTV provides an enhanced Roblox experience with Discord Rich Presence, Fast Flags editor, multi-instance support, and performance presets.
 
-![EvanBlox Screenshot](./assets/screenshot.png)
+![TQTHBAXPDENAE-SBTV Screenshot](./assets/screenshot.png)
 
 ## Features
 
@@ -25,7 +25,7 @@ A modern, feature-rich Roblox launcher built with Electron + Vite + React + Type
 
 ## macOS Features
 
-EvanBlox is optimized for macOS with native integrations:
+TQTHBAXPDENAE-SBTV is optimized for macOS with native integrations:
 
 - **Menu Bar**: Full macOS menu with keyboard shortcuts
   - `Cmd+L` - Launch Roblox
@@ -48,8 +48,8 @@ EvanBlox is optimized for macOS with native integrations:
 
 ```bash
 # Clone the repository
-git clone https://github.com/iamevanyt/evanblox.git
-cd evanblox
+git clone https://github.com/iamevanyt/tqthbaxpdenae-sbtv.git
+cd tqthbaxpdenae-sbtv
 
 # Install dependencies (we use Bun! 🥟)
 bun install
@@ -103,7 +103,7 @@ For signed macOS builds, add these secrets to your GitHub repository:
 ## Project Structure
 
 ```
-evanblox/
+tqthbaxpdenae-sbtv/
 ├── src/
 │   ├── main/              # Electron main process
 │   │   ├── index.ts       # Main entry point
@@ -131,7 +131,7 @@ evanblox/
 
 ## Fast Flags
 
-Fast flags are Roblox startup configuration options that can modify game behavior. EvanBlox includes:
+Fast flags are Roblox startup configuration options that can modify game behavior. TQTHBAXPDENAE-SBTV includes:
 
 - **Sample Flags**: Pre-configured flags for FPS, graphics, and performance
 - **JSON Editor**: Direct JSON editing for custom flags
@@ -149,7 +149,7 @@ Fast flags are Roblox startup configuration options that can modify game behavio
 
 ## Discord Rich Presence
 
-EvanBlox integrates with Discord to show:
+TQTHBAXPDENAE-SBTV integrates with Discord to show:
 
 - Current status ("Playing Roblox", "In Launcher")
 - Elapsed session time
@@ -185,9 +185,9 @@ Choose from four optimization profiles:
 
 Settings are stored in:
 
-- **Windows**: `%APPDATA%/evanblox/`
-- **macOS**: `~/Library/Application Support/evanblox/`
-- **Linux**: `~/.config/evanblox/`
+- **Windows**: `%APPDATA%/tqthbaxpdenae-sbtv/`
+- **macOS**: `~/Library/Application Support/tqthbaxpdenae-sbtv/`
+- **Linux**: `~/.config/tqthbaxpdenae-sbtv/`
 
 ## Development
 

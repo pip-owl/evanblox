@@ -121,7 +121,7 @@ export const Dashboard: React.FC = () => {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#00d26a] to-[#00b894] mb-4 shadow-lg shadow-[#00d26a]/20">
             <Gamepad2 size={40} className="text-black"></Gamepad2>
           </div>
-          <h1 className="text-3xl font-bold">Welcome to <span className="gradient-text">EvanBlox</span></h1>
+          <h1 className="text-3xl font-bold">Welcome to <span className="gradient-text">TQTHBAXPDENAE-SBTV</span></h1>
           <p className="text-gray-400">Your advanced Roblox launcher with enhanced features</p>
         </div>
 

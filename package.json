@@ -1,9 +1,9 @@
 {
-  "name": "evanblox",
+  "name": "tqthbaxpdenae-sbtv",
   "version": "1.0.0",
-  "description": "A modern Roblox launcher with Discord Rich Presence, Fast-flags editor, and multi-instance support",
+  "description": "The Omniscient Quantum-Tunneling Hyper-Blox Accelerator XTREME Pro Deluxe Edition (Not An Exploit) - Sponsored by The Void",
   "main": "dist/main/index.js",
-  "author": "EvanBlox",
+  "author": "The Void Corporation",
   "license": "MIT",
   "private": true,
   "type": "module",
@@ -53,9 +53,9 @@
     "vite-plugin-electron-renderer": "^0.14.5"
   },
   "build": {
-    "appId": "dev.iamevanyt.evanblox",
-    "productName": "EvanBlox",
-    "copyright": "Copyright © 2026 iamevanyt",
+    "appId": "void.corp.tqthbaxpdenae-sbtv",
+    "productName": "TQTHBAXPDENAE-SBTV",
+    "copyright": "Copyright © 2026 The Void Corporation - Not An Exploit LLC",
     "directories": {
       "output": "release",
       "buildResources": "assets"

@@ -16,7 +16,7 @@ export class SettingsManager {
 
   constructor() {
     this.store = new Store<SettingsSchema>({
-      name: 'evanblox-settings',
+      name: 'tqthbaxpdenae-sbtv-settings',
       defaults: {
         settings: DEFAULT_SETTINGS,
       },

@@ -95,7 +95,7 @@ export const SettingsPage: React.FC = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold">Settings</h1>
-              <p className="text-sm text-gray-400">Configure EvanBlox to your preferences</p>
+              <p className="text-sm text-gray-400">Configure TQTHBAXPDENAE-SBTV to your preferences</p>
             </div>
           </div>
 
@@ -310,10 +310,10 @@ export const SettingsPage: React.FC = () => {
             <div className="flex items-center justify-between p-4 bg-[#141414] rounded-xl">
               <div>
                 <p className="font-medium">Version</p>
-                <p className="text-sm text-gray-500">EvanBlox v1.0.0</p>
+                <p className="text-sm text-gray-500">TQTHBAXPDENAE-SBTV v1.0.0</p>
               </div>
               <button 
-                onClick={() => window.electronAPI.openExternal('https://github.com/iamevanyt/evanblox')}
+                onClick={() => window.electronAPI.openExternal('https://github.com/iamevanyt/tqthbaxpdenae-sbtv')}
                 className="flex items-center gap-2 px-4 py-2 bg-[#1f1f1f] border border-[#2d2d2d] rounded-lg hover:bg-[#2a2a2a] transition-colors"
               >
                 <ExternalLink size={16}></ExternalLink>
@@ -323,7 +323,7 @@ export const SettingsPage: React.FC = () => {
 
             <div className="p-4 bg-[#141414] rounded-xl">
               <p className="text-sm text-gray-400">
-                EvanBlox is an open-source Roblox launcher with advanced features including Discord Rich Presence, Fast Flags editor, multi-instance support, and performance presets.
+                TQTHBAXPDENAE-SBTV is an open-source Roblox launcher with advanced features including Discord Rich Presence, Fast Flags editor, multi-instance support, and performance presets.
               </p>
             </div>
           </div>

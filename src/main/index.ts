@@ -1,5 +1,5 @@
 /**
- * Main entry point for EvanBlox
+ * Main entry point for TQTHBAXPDENAE-SBTV
  * Handles window management, Discord RPC, Roblox spawning, and IPC
  */
 
@@ -89,10 +89,10 @@ function createWindow(): void {
 function createMenu(): void {
   const template: Electron.MenuItemConstructorOptions[] = [
     {
-      label: 'EvanBlox',
+      label: 'TQTHBAXPDENAE-SBTV',
       submenu: [
         {
-          label: 'About EvanBlox',
+          label: 'About TQTHBAXPDENAE-SBTV',
           click: () => {
             mainWindow?.webContents.send('navigate', 'settings');
           },
@@ -194,13 +194,13 @@ function createMenu(): void {
         {
           label: 'GitHub Repository',
           click: () => {
-            shell.openExternal('https://github.com/pip-owl/evanblox');
+            shell.openExternal('https://github.com/pip-owl/tqthbaxpdenae-sbtv');
           },
         },
         {
           label: 'Report Issue',
           click: () => {
-            shell.openExternal('https://github.com/pip-owl/evanblox/issues');
+            shell.openExternal('https://github.com/pip-owl/tqthbaxpdenae-sbtv/issues');
           },
         },
       ],
@@ -257,7 +257,7 @@ function createTray(): void {
   
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Show EvanBlox',
+      label: 'Show TQTHBAXPDENAE-SBTV',
       click: () => {
         mainWindow?.show();
         mainWindow?.focus();
@@ -278,7 +278,7 @@ function createTray(): void {
     },
   ]);
   
-  tray.setToolTip('EvanBlox');
+  tray.setToolTip('TQTHBAXPDENAE-SBTV');
   tray.setContextMenu(contextMenu);
   
   tray.on('click', () => {
@@ -302,8 +302,8 @@ async function handleLaunchRoblox(flags?: Record<string, unknown>): Promise<{ su
           startTimestamp: Date.now(),
           largeImageKey: 'roblox_logo',
           largeImageText: 'Roblox',
-          smallImageKey: 'evanblox_logo',
-          smallImageText: 'EvanBlox Launcher',
+          smallImageKey: 'tqthbaxpdenae-sbtv_logo',
+          smallImageText: 'TQTHBAXPDENAE-SBTV Launcher',
         });
       }
       
@@ -481,8 +481,8 @@ app.whenReady().then(() => {
       discordRPC.updatePresence({
         details: 'In Launcher',
         state: 'Idle',
-        largeImageKey: 'evanblox_logo',
-        largeImageText: 'EvanBlox',
+        largeImageKey: 'tqthbaxpdenae-sbtv_logo',
+        largeImageText: 'TQTHBAXPDENAE-SBTV',
       });
     }
   }, 5000);

@@ -21,7 +21,7 @@ export class FastFlagsManager {
 
   constructor() {
     this.store = new Store<FastFlagsSchema>({
-      name: 'evanblox-fastflags',
+      name: 'tqthbaxpdenae-sbtv-fastflags',
       defaults: {
         config: {
           flags: DEFAULT_FAST_FLAGS,

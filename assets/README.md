@@ -1,4 +1,4 @@
-# EvanBlox
+# TQTHBAXPDENAE-SBTV
 
 A modern Roblox launcher with Discord Rich Presence, Fast Flags editor, and multi-instance support.
 

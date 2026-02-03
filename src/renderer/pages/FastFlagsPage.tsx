@@ -92,7 +92,7 @@ export const FastFlagsPage: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'evanblox-fastflags.json';
+    link.download = 'tqthbaxpdenae-sbtv-fastflags.json';
     link.click();
     URL.revokeObjectURL(url);
   };

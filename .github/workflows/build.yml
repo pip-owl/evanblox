@@ -37,7 +37,7 @@ jobs:
       - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: evanblox-macos-${{ matrix.arch }}
+          name: tqthbaxpdenae-sbtv-macos-${{ matrix.arch }}
           path: release/*.dmg
 
   build-windows:
@@ -63,7 +63,7 @@ jobs:
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: evanblox-windows
+          name: tqthbaxpdenae-sbtv-windows
           path: |
             release/*.exe
             release/*.zip
@@ -89,7 +89,7 @@ jobs:
       - name: Upload Linux artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: evanblox-linux
+          name: tqthbaxpdenae-sbtv-linux
           path: |
             release/*.AppImage
             release/*.deb
