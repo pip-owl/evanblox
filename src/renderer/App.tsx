@@ -34,16 +34,16 @@ function App() {
     init();
 
     // Listen for navigation from macOS menu
-    const handleNavigate = (_: Event, page: string) => {
+    const handleNavigate = (page: string) => {
       if (['dashboard', 'fastflags', 'performance', 'settings'].includes(page)) {
         setCurrentPage(page as Page);
       }
     };
 
-    window.electronAPI.onNavigate?.(handleNavigate);
+    const cleanup = window.electronAPI.onNavigate?.(handleNavigate);
 
     return () => {
-      window.electronAPI.offNavigate?.(handleNavigate);
+      cleanup?.();
     };
   }, []);
 

@@ -54,8 +54,8 @@ export interface ElectronAPI {
   onDiscordStatusChange: (callback: (status: boolean) => void) => () => void;
   
   // Navigation (for macOS menu)
-  onNavigate: (callback: (event: Event, page: string) => void) => void;
-  offNavigate: (callback: (event: Event, page: string) => void) => void;
+  onNavigate: (callback: (page: string) => void) => () => void;
+  offNavigate: (callback: (page: string) => void) => void;
 }
 
 const api: ElectronAPI = {
@@ -107,10 +107,12 @@ const api: ElectronAPI = {
   
   // Navigation (for macOS menu)
   onNavigate: (callback) => {
-    ipcRenderer.on('navigate-to', callback);
+    const handler = (_: IpcRendererEvent, page: string) => callback(page);
+    ipcRenderer.on('navigate-to', handler);
+    return () => ipcRenderer.off('navigate-to', handler);
   },
-  offNavigate: (callback) => {
-    ipcRenderer.off('navigate-to', callback);
+  offNavigate: () => {
+    ipcRenderer.removeAllListeners('navigate-to');
   },
 };
 
