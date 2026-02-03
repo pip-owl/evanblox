@@ -15,8 +15,7 @@
     "build:linux": "tsc && vite build && electron-builder --linux",
     "preview": "vite preview",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "typecheck": "tsc --noEmit",
-    "postinstall": "electron-builder install-app-deps"
+    "typecheck": "tsc --noEmit"
   },
   "trustedDependencies": [
     "electron",

@@ -16,16 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: '20'
+          cache: 'npm'
       
       - name: Install dependencies
-        run: bun install
+        run: npm ci
       
       - name: Build macOS ${{ matrix.arch }}
-        run: bun run build:mac -- --${{ matrix.arch }}
+        run: npm run build:mac -- --${{ matrix.arch }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -45,16 +46,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: '20'
+          cache: 'npm'
       
       - name: Install dependencies
-        run: bun install
+        run: npm ci
       
       - name: Build Windows
-        run: bun run build:win
+        run: npm run build:win
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
@@ -73,16 +75,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: '20'
+          cache: 'npm'
       
       - name: Install dependencies
-        run: bun install
+        run: npm ci
       
       - name: Build Linux
-        run: bun run build:linux
+        run: npm run build:linux
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
