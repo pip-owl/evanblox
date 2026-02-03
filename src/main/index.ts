@@ -1,0 +1,333 @@
+/**
+ * Main entry point for EvanBlox
+ * Handles window management, Discord RPC, Roblox spawning, and IPC
+ */
+
+import { 
+  app, 
+  BrowserWindow, 
+  ipcMain, 
+  shell, 
+  nativeImage,
+  Tray,
+  Menu
+} from 'electron';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { DiscordRPCManager } from './discord-rpc.js';
+import { RobloxManager } from './roblox-manager.js';
+import { SettingsManager } from './settings-manager.js';
+import { FastFlagsManager } from './fastflags-manager.js';
+import { IPC_CHANNELS, PERFORMANCE_PRESETS } from '../shared/types.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ==================== App State ====================
+let mainWindow: BrowserWindow | null = null;
+let tray: Tray | null = null;
+let discordRPC: DiscordRPCManager;
+let robloxManager: RobloxManager;
+let settingsManager: SettingsManager;
+let fastFlagsManager: FastFlagsManager;
+
+// ==================== Window Management ====================
+function createWindow(): void {
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    minWidth: 900,
+    minHeight: 600,
+    titleBarStyle: 'hiddenInset',
+    trafficLightPosition: { x: 15, y: 15 },
+    backgroundColor: '#0f0f0f',
+    show: false,
+    webPreferences: {
+      preload: path.join(__dirname, '../preload/index.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: true,
+    },
+  });
+
+  // Load the app
+  if (process.env.VITE_DEV_SERVER_URL) {
+    mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+    mainWindow.webContents.openDevTools();
+  } else {
+    mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
+  }
+
+  // Show window when ready
+  mainWindow.once('ready-to-show', () => {
+    mainWindow?.show();
+  });
+
+  // Handle window close
+  mainWindow.on('close', (event) => {
+    const settings = settingsManager.getSettings();
+    if (settings.general.closeToTray) {
+      event.preventDefault();
+      mainWindow?.hide();
+    }
+  });
+
+  // Handle window closed
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
+
+  // Handle external links
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
+  });
+}
+
+function createTray(): void {
+  // Create a simple 16x16 tray icon (will be replaced with actual icon)
+  const trayIcon = nativeImage.createFromDataURL(
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABcSURBVHgB7cwxDQAgDEDRcQL3X8EV3MEBXEELRXOJQCXtS77EJH2Z+bAfyA/kB/ID+YH8QH4gP5AfyA/kB/ID+YH8QH4gP5AfyA/kB/ID+YH8QH4gP5AfyA/kB/ID+QH/A2T1/ws8W/BJAAAAAElFTkSuQmCC'
+  );
+  
+  tray = new Tray(trayIcon);
+  
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show EvanBlox',
+      click: () => {
+        mainWindow?.show();
+        mainWindow?.focus();
+      },
+    },
+    {
+      label: 'Launch Roblox',
+      click: () => {
+        handleLaunchRoblox();
+      },
+    },
+    { type: 'separator' },
+    {
+      label: 'Quit',
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
+  
+  tray.setToolTip('EvanBlox');
+  tray.setContextMenu(contextMenu);
+  
+  tray.on('click', () => {
+    mainWindow?.show();
+    mainWindow?.focus();
+  });
+}
+
+// ==================== IPC Handlers ====================
+async function handleLaunchRoblox(flags?: Record<string, unknown>): Promise<{ success: boolean; error?: string }> {
+  try {
+    const settings = settingsManager.getSettings();
+    const result = await robloxManager.launch(settings, flags);
+    
+    if (result.success) {
+      // Update Discord presence
+      if (settings.discord.enabled) {
+        discordRPC.updatePresence({
+          details: 'Playing Roblox',
+          state: settings.discord.customStatus || 'In Game',
+          startTimestamp: Date.now(),
+          largeImageKey: 'roblox_logo',
+          largeImageText: 'Roblox',
+          smallImageKey: 'evanblox_logo',
+          smallImageText: 'EvanBlox Launcher',
+        });
+      }
+      
+      // Notify renderer of status change
+      mainWindow?.webContents.send('roblox:status-changed', robloxManager.getStatus());
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Failed to launch Roblox:', error);
+    return { success: false, error: String(error) };
+  }
+}
+
+function setupIPCHandlers(): void {
+  // Window controls
+  ipcMain.handle(IPC_CHANNELS.MINIMIZE_WINDOW, () => {
+    mainWindow?.minimize();
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.MAXIMIZE_WINDOW, () => {
+    if (mainWindow?.isMaximized()) {
+      mainWindow.unmaximize();
+    } else {
+      mainWindow?.maximize();
+    }
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.CLOSE_WINDOW, () => {
+    const settings = settingsManager.getSettings();
+    if (settings.general.closeToTray) {
+      mainWindow?.hide();
+    } else {
+      mainWindow?.close();
+    }
+  });
+  
+  // Roblox
+  ipcMain.handle(IPC_CHANNELS.LAUNCH_ROBLOX, (_, flags) => handleLaunchRoblox(flags));
+  
+  ipcMain.handle(IPC_CHANNELS.KILL_ROBLOX, async () => {
+    await robloxManager.killAll();
+    discordRPC.clearPresence();
+    return { success: true };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.GET_ROBLOX_STATUS, () => {
+    return { success: true, data: robloxManager.getStatus() };
+  });
+  
+  // Discord RPC
+  ipcMain.handle(IPC_CHANNELS.UPDATE_DISCORD_PRESENCE, (_, presence) => {
+    discordRPC.updatePresence(presence);
+    return { success: true };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.CLEAR_DISCORD_PRESENCE, () => {
+    discordRPC.clearPresence();
+    return { success: true };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.GET_DISCORD_STATUS, () => {
+    return { success: true, data: discordRPC.isConnected() };
+  });
+  
+  // Fast Flags
+  ipcMain.handle(IPC_CHANNELS.GET_FAST_FLAGS, () => {
+    return { success: true, data: fastFlagsManager.getConfig() };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.SET_FAST_FLAGS, (_, config) => {
+    fastFlagsManager.setConfig(config);
+    return { success: true };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.SAVE_FAST_FLAGS, () => {
+    fastFlagsManager.save();
+    return { success: true };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.RESET_FAST_FLAGS, () => {
+    fastFlagsManager.reset();
+    return { success: true };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.VALIDATE_FAST_FLAGS, (_, json) => {
+    try {
+      JSON.parse(json);
+      return { success: true, data: true };
+    } catch {
+      return { success: true, data: false };
+    }
+  });
+  
+  // Settings
+  ipcMain.handle(IPC_CHANNELS.GET_SETTINGS, () => {
+    return { success: true, data: settingsManager.getSettings() };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.SET_SETTINGS, (_, settings) => {
+    settingsManager.setSettings(settings);
+    return { success: true };
+  });
+  
+  // Performance Presets
+  ipcMain.handle(IPC_CHANNELS.APPLY_PRESET, async (_, presetId) => {
+    const preset = PERFORMANCE_PRESETS.find(p => p.id === presetId);
+    if (!preset) {
+      return { success: false, error: 'Preset not found' };
+    }
+    
+    fastFlagsManager.applyPreset(preset);
+    
+    // Update settings
+    const settings = settingsManager.getSettings();
+    settings.performance.currentPreset = presetId;
+    settingsManager.setSettings(settings);
+    
+    return { success: true };
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.GET_PRESETS, () => {
+    return { success: true, data: PERFORMANCE_PRESETS };
+  });
+  
+  // App
+  ipcMain.handle(IPC_CHANNELS.GET_VERSION, () => {
+    return app.getVersion();
+  });
+  
+  ipcMain.handle(IPC_CHANNELS.OPEN_EXTERNAL, (_, url) => {
+    shell.openExternal(url);
+  });
+}
+
+// ==================== App Lifecycle ====================
+app.whenReady().then(() => {
+  // Initialize managers
+  settingsManager = new SettingsManager();
+  fastFlagsManager = new FastFlagsManager();
+  discordRPC = new DiscordRPCManager();
+  robloxManager = new RobloxManager();
+  
+  // Connect Discord RPC
+  const settings = settingsManager.getSettings();
+  if (settings.discord.enabled) {
+    discordRPC.connect();
+  }
+  
+  // Setup IPC handlers
+  setupIPCHandlers();
+  
+  // Create window and tray
+  createWindow();
+  createTray();
+  
+  // Check Roblox status periodically
+  setInterval(() => {
+    const status = robloxManager.getStatus();
+    mainWindow?.webContents.send('roblox:status-changed', status);
+    
+    // Update Discord if Roblox closed
+    if (!status.isRunning && discordRPC.isConnected()) {
+      discordRPC.updatePresence({
+        details: 'In Launcher',
+        state: 'Idle',
+        largeImageKey: 'evanblox_logo',
+        largeImageText: 'EvanBlox',
+      });
+    }
+  }, 5000);
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
+
+app.on('before-quit', () => {
+  // Cleanup
+  discordRPC.disconnect();
+  robloxManager.killAll();
+});
