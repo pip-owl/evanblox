@@ -216,18 +216,18 @@ function createDockMenu(): void {
 
   const dockMenu = Menu.buildFromTemplate([
     {
-      label: 'Launch Roblox',
+      label: '🚀 Launch Roblox via TQTHBAXPDENAE-SBTV (The Omniscient Quantum-Tunneling Hyper-Blox Accelerator)',
       click: () => handleLaunchRoblox(),
     },
     {
-      label: 'Open Fast Flags',
+      label: '⚡ Open Fast Flags Editor (Modify Roblox Startup Configuration)',
       click: () => {
         mainWindow?.show();
         mainWindow?.webContents.send('navigate', 'fastflags');
       },
     },
     {
-      label: 'Performance Presets',
+      label: '🔥 Performance Presets (Optimize Your Blox Experience)',
       click: () => {
         mainWindow?.show();
         mainWindow?.webContents.send('navigate', 'performance');
@@ -277,7 +277,7 @@ function createTray(): void {
     },
   ]);
   
-  tray.setToolTip('TQTHBAXPDENAE-SBTV');
+  tray.setToolTip('TQTHBAXPDENAE-SBTV: The Omniscient Quantum-Tunneling Hyper-Blox Accelerator XTREME Pro Deluxe Edition (Not An Exploit)');
   tray.setContextMenu(contextMenu);
   
   tray.on('click', () => {
