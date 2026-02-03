@@ -46,8 +46,9 @@
     "vite-plugin-electron-renderer": "^0.14.5"
   },
   "build": {
-    "appId": "com.evanblox.launcher",
+    "appId": "dev.iamevanyt.evanblox",
     "productName": "EvanBlox",
+    "copyright": "Copyright © 2026 iamevanyt",
     "directories": {
       "output": "release",
       "buildResources": "assets"
@@ -64,9 +65,21 @@
             "x64",
             "arm64"
           ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ],
-      "category": "public.app-category.games"
+      "category": "public.app-category.games",
+      "icon": "assets/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
     },
     "win": {
       "target": [

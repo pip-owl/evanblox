@@ -52,6 +52,10 @@ export interface ElectronAPI {
   // Event Listeners
   onRobloxStatusChange: (callback: (status: RobloxStatus) => void) => () => void;
   onDiscordStatusChange: (callback: (status: boolean) => void) => () => void;
+  
+  // Navigation (for macOS menu)
+  onNavigate: (callback: (event: Event, page: string) => void) => void;
+  offNavigate: (callback: (event: Event, page: string) => void) => void;
 }
 
 const api: ElectronAPI = {
@@ -99,6 +103,14 @@ const api: ElectronAPI = {
     const handler = (_: IpcRendererEvent, status: boolean) => callback(status);
     ipcRenderer.on('discord:status-changed', handler);
     return () => ipcRenderer.off('discord:status-changed', handler);
+  },
+  
+  // Navigation (for macOS menu)
+  onNavigate: (callback) => {
+    ipcRenderer.on('navigate-to', callback);
+  },
+  offNavigate: (callback) => {
+    ipcRenderer.off('navigate-to', callback);
   },
 };
 

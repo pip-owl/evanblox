@@ -10,7 +10,8 @@ import {
   shell, 
   nativeImage,
   Tray,
-  Menu
+  Menu,
+  nativeTheme
 } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -82,6 +83,168 @@ function createWindow(): void {
     shell.openExternal(url);
     return { action: 'deny' };
   });
+}
+
+// ==================== macOS Menu ====================
+function createMenu(): void {
+  const template: Electron.MenuItemConstructorOptions[] = [
+    {
+      label: 'EvanBlox',
+      submenu: [
+        {
+          label: 'About EvanBlox',
+          click: () => {
+            mainWindow?.webContents.send('navigate', 'settings');
+          },
+        },
+        { type: 'separator' },
+        {
+          label: 'Preferences...',
+          accelerator: 'CmdOrCtrl+,',
+          click: () => {
+            mainWindow?.webContents.send('navigate', 'settings');
+          },
+        },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideothers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    },
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Launch Roblox',
+          accelerator: 'CmdOrCtrl+L',
+          click: () => handleLaunchRoblox(),
+        },
+        {
+          label: 'Kill Roblox',
+          accelerator: 'CmdOrCtrl+K',
+          click: async () => {
+            await robloxManager.killAll();
+            discordRPC.clearPresence();
+          },
+        },
+        { type: 'separator' },
+        {
+          label: 'Fast Flags',
+          accelerator: 'CmdOrCtrl+F',
+          click: () => {
+            mainWindow?.webContents.send('navigate', 'fastflags');
+          },
+        },
+        {
+          label: 'Performance',
+          accelerator: 'CmdOrCtrl+P',
+          click: () => {
+            mainWindow?.webContents.send('navigate', 'performance');
+          },
+        },
+      ],
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'selectall' },
+      ],
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forcereload' },
+        { role: 'toggledevtools' },
+        { type: 'separator' },
+        { role: 'resetzoom' },
+        { role: 'zoomin' },
+        { role: 'zoomout' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+      ],
+    },
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'close' },
+        { type: 'separator' },
+        { role: 'front' },
+        { type: 'separator' },
+        {
+          label: 'Bring All to Front',
+          role: 'front',
+        },
+      ],
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'GitHub Repository',
+          click: () => {
+            shell.openExternal('https://github.com/pip-owl/evanblox');
+          },
+        },
+        {
+          label: 'Report Issue',
+          click: () => {
+            shell.openExternal('https://github.com/pip-owl/evanblox/issues');
+          },
+        },
+      ],
+    },
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
+
+// ==================== macOS Dock Menu ====================
+function createDockMenu(): void {
+  if (process.platform !== 'darwin') return;
+
+  const dockMenu = Menu.buildFromTemplate([
+    {
+      label: 'Launch Roblox',
+      click: () => handleLaunchRoblox(),
+    },
+    {
+      label: 'Open Fast Flags',
+      click: () => {
+        mainWindow?.show();
+        mainWindow?.webContents.send('navigate', 'fastflags');
+      },
+    },
+    {
+      label: 'Performance Presets',
+      click: () => {
+        mainWindow?.show();
+        mainWindow?.webContents.send('navigate', 'performance');
+      },
+    },
+    { type: 'separator' },
+    {
+      label: 'Settings',
+      click: () => {
+        mainWindow?.show();
+        mainWindow?.webContents.send('navigate', 'settings');
+      },
+    },
+  ]);
+
+  app.dock.setMenu(dockMenu);
 }
 
 function createTray(): void {
@@ -274,6 +437,11 @@ function setupIPCHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.OPEN_EXTERNAL, (_, url) => {
     shell.openExternal(url);
   });
+  
+  // Navigation (for macOS menu shortcuts)
+  ipcMain.on('navigate', (_, page: string) => {
+    mainWindow?.webContents.send('navigate-to', page);
+  });
 }
 
 // ==================== App Lifecycle ====================
@@ -293,9 +461,15 @@ app.whenReady().then(() => {
   // Setup IPC handlers
   setupIPCHandlers();
   
+  // Create macOS menu
+  createMenu();
+  
   // Create window and tray
   createWindow();
   createTray();
+  
+  // Create dock menu (macOS only)
+  createDockMenu();
   
   // Check Roblox status periodically
   setInterval(() => {

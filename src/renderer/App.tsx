@@ -32,6 +32,19 @@ function App() {
     };
 
     init();
+
+    // Listen for navigation from macOS menu
+    const handleNavigate = (_: Event, page: string) => {
+      if (['dashboard', 'fastflags', 'performance', 'settings'].includes(page)) {
+        setCurrentPage(page as Page);
+      }
+    };
+
+    window.electronAPI.onNavigate?.(handleNavigate);
+
+    return () => {
+      window.electronAPI.offNavigate?.(handleNavigate);
+    };
   }, []);
 
   if (isLoading) {

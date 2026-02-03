@@ -13,6 +13,7 @@ A modern, feature-rich Roblox launcher built with Electron + Vite + React + Type
 - **Modern Dark UI**: Sleek, AppleBlox-inspired interface with smooth animations
 - **System Tray Integration**: Minimize to tray and keep running in background
 - **TypeScript**: Fully type-safe codebase for reliability
+- **macOS Optimized**: Native menu bar, keyboard shortcuts, and Dock integration
 
 ## Tech Stack
 
@@ -21,6 +22,20 @@ A modern, feature-rich Roblox launcher built with Electron + Vite + React + Type
 - **Build Tool**: Vite with electron-vite plugin
 - **State**: electron-store for persistent settings
 - **RPC**: discord-rpc for Discord integration
+
+## macOS Features
+
+EvanBlox is optimized for macOS with native integrations:
+
+- **Menu Bar**: Full macOS menu with keyboard shortcuts
+  - `Cmd+L` - Launch Roblox
+  - `Cmd+K` - Kill Roblox  
+  - `Cmd+F` - Open Fast Flags
+  - `Cmd+P` - Open Performance
+  - `Cmd+,` - Open Preferences
+- **Dock Menu**: Quick actions via right-click on Dock icon
+- **Hardened Runtime**: Compatible with macOS Gatekeeper
+- **Universal Binary**: Native support for both Intel and Apple Silicon
 
 ## Installation
 
@@ -54,6 +69,36 @@ npm run build:win    # Windows
 npm run build:mac    # macOS
 npm run build:linux  # Linux
 ```
+
+## GitHub Actions (Automated Builds)
+
+This repository includes GitHub Actions workflows for automatic building and releasing:
+
+- **macOS**: Builds for both Intel (x64) and Apple Silicon (arm64)
+- **Windows**: Builds NSIS installer and portable executable
+- **Linux**: Builds AppImage and Debian package
+
+### Automated Releases
+
+When you push a tag starting with `v` (e.g., `v1.0.0`), the workflow will:
+1. Build for all platforms
+2. Create a GitHub Release
+3. Upload all artifacts automatically
+
+```bash
+# Create a new release
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+### Required Secrets (for macOS code signing)
+
+For signed macOS builds, add these secrets to your GitHub repository:
+- `APPLE_ID`: Your Apple ID email
+- `APPLE_ID_PASSWORD`: App-specific password
+- `APPLE_TEAM_ID`: Your Apple Developer Team ID
+- `CSC_LINK`: Link to your certificate (base64 encoded)
+- `CSC_KEY_PASSWORD`: Certificate password
 
 ## Project Structure
 
