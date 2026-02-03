@@ -51,23 +51,23 @@ EvanBlox is optimized for macOS with native integrations:
 git clone https://github.com/iamevanyt/evanblox.git
 cd evanblox
 
-# Install dependencies
-npm install
+# Install dependencies (we use Bun! 🥟)
+bun install
 
 # Start development server
-npm run dev
+bun run dev
 ```
 
 ## Building
 
 ```bash
 # Build for current platform
-npm run build
+bun run build
 
 # Build for specific platforms
-npm run build:win    # Windows
-npm run build:mac    # macOS
-npm run build:linux  # Linux
+bun run build:win    # Windows
+bun run build:mac    # macOS
+bun run build:linux  # Linux
 ```
 
 ## GitHub Actions (Automated Builds)

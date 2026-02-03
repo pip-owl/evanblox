@@ -15,8 +15,15 @@
     "build:linux": "tsc && vite build && electron-builder --linux",
     "preview": "vite preview",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "electron-builder install-app-deps"
   },
+  "trustedDependencies": [
+    "electron",
+    "electron-builder",
+    "discord-rpc",
+    "electron-store"
+  ],
   "dependencies": {
     "discord-rpc": "^4.0.1",
     "electron-store": "^8.1.0",

@@ -16,17 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: '20'
-          cache: 'npm'
+          bun-version: latest
       
       - name: Install dependencies
-        run: npm ci
+        run: bun install
       
       - name: Build macOS ${{ matrix.arch }}
-        run: npm run build:mac -- --${{ matrix.arch }}
+        run: bun run build:mac -- --${{ matrix.arch }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -46,17 +45,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: '20'
-          cache: 'npm'
+          bun-version: latest
       
       - name: Install dependencies
-        run: npm ci
+        run: bun install
       
       - name: Build Windows
-        run: npm run build:win
+        run: bun run build:win
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
@@ -75,17 +73,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: '20'
-          cache: 'npm'
+          bun-version: latest
       
       - name: Install dependencies
-        run: npm ci
+        run: bun install
       
       - name: Build Linux
-        run: npm run build:linux
+        run: bun run build:linux
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -96,7 +93,6 @@ jobs:
           path: |
             release/*.AppImage
             release/*.deb
-            release/*.snap
 
   release:
     needs: [build-macos, build-windows, build-linux]
