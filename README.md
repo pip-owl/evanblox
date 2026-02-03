@@ -1,6 +1,8 @@
 # TQTHBAXPDENAE-SBTV
 
-A modern, feature-rich Roblox launcher built with Electron + Vite + React + TypeScript. Inspired by AppleBlox, TQTHBAXPDENAE-SBTV provides an enhanced Roblox experience with Discord Rich Presence, Fast Flags editor, multi-instance support, and performance presets.
+**The Omniscient Quantum-Tunneling Hyper-Blox Accelerator XTREME Pro Deluxe Edition (Not An Exploit) - Sponsored by The Void**
+
+A modern, feature-rich Roblox launcher built with Electron + Vite + React + TypeScript. Provides an enhanced Roblox experience with Discord Rich Presence, Fast Flags editor, multi-instance support, and performance presets.
 
 ![TQTHBAXPDENAE-SBTV Screenshot](./assets/screenshot.png)
 
