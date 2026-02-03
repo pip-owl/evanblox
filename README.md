@@ -29,6 +29,8 @@ A modern, feature-rich Roblox launcher built with Electron + Vite + React + Type
 
 TQTHBAXPDENAE-SBTV is optimized for macOS with native integrations:
 
+> ⚡️ Built with Bun for maximum speed
+
 - **Menu Bar**: Full macOS menu with keyboard shortcuts
   - `Cmd+L` - Launch Roblox
   - `Cmd+K` - Kill Roblox  
