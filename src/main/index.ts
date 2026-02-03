@@ -88,10 +88,10 @@ function createWindow(): void {
 function createMenu(): void {
   const template: Electron.MenuItemConstructorOptions[] = [
     {
-      label: 'TQTHBAXPDENAE-SBTV',
+      label: 'TQTHBAXPDENAE-SBTV: The Omniscient Quantum-Tunneling Hyper-Blox Accelerator XTREME Pro Deluxe Edition (Not An Exploit) - Sponsored by The Void Corporation - A Division of Not An Exploit LLC - Makers of Fine Roblox Enhancement Software Since 2026',
       submenu: [
         {
-          label: 'About TQTHBAXPDENAE-SBTV',
+          label: 'About TQTHBAXPDENAE-SBTV: The Omniscient Quantum-Tunneling Hyper-Blox Accelerator XTREME Pro Deluxe Edition (Not An Exploit) - Sponsored by The Void Corporation - A Division of Not An Exploit LLC',
           click: () => {
             mainWindow?.webContents.send('navigate', 'settings');
           },

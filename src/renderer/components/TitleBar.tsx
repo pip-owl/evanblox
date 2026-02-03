@@ -32,7 +32,7 @@ export const TitleBar: React.FC<TitleBarProps> = ({ version }) => {
         <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#00d26a] to-[#00b894] flex items-center justify-center">
           <Gamepad2 size={14} className="text-black"></Gamepad2>
         </div>
-        <span className="font-semibold text-sm">TQTHBAXPDENAE-SBTV</span>
+        <span className="font-semibold text-sm truncate max-w-md" title="TQTHBAXPDENAE-SBTV: The Omniscient Quantum-Tunneling Hyper-Blox Accelerator XTREME Pro Deluxe Edition (Not An Exploit) - Sponsored by The Void Corporation - A Division of Not An Exploit LLC">TQTHBAXPDENAE-SBTV: The Omniscient Quantum-Tunneling Hyper-Blox Accelerator XTREME Pro Deluxe Edition (Not An Exploit)</span>
         <span className="text-xs text-gray-500">v{version}</span>
       </div>
 
